@@ -5,6 +5,8 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace UniversalFtpServer
@@ -138,7 +140,6 @@ namespace UniversalFtpServer
 		}
 
 
-
 		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true, CharSet = CharSet.Unicode)]
 		static extern IntPtr FindFirstFileExFromApp(
 			string lpFileName,
@@ -150,18 +151,47 @@ namespace UniversalFtpServer
 
 		const int FIND_FIRST_EX_LARGE_FETCH = 2;
 
-		[DllImport("api-ms-win-core-file-l1-1-0.dll", CharSet = CharSet.Unicode)]
+		[DllImport("api-ms-win-core-file-l1-1-0.dll", SetLastError = true, CharSet = CharSet.Unicode)]
 		static extern bool FindNextFile(IntPtr hFindFile, out WIN32_FIND_DATA lpFindFileData);
 
 		[DllImport("api-ms-win-core-file-l1-1-0.dll")]
 		static extern bool FindClose(IntPtr hFindFile);
 
+		public enum GET_FILEEX_INFO_LEVELS
+		{
+			GetFileExInfoStandard,
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct WIN32_FILE_ATTRIBUTE_DATA
+		{
+			public System.IO.FileAttributes dwFileAttributes;
+			public FILETIME ftCreationTime;
+			public FILETIME ftLastAccessTime;
+			public FILETIME ftLastWriteTime;
+			public uint nFileSizeHigh;
+			public uint nFileSizeLow;
+		}
+
+		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool GetFileAttributesExFromApp(string lpFileName, GET_FILEEX_INFO_LEVELS fInfoLevelId, out WIN32_FILE_ATTRIBUTE_DATA lpFileInformation);
+
+		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool CreateDirectoryFromApp(string lpPathName, IntPtr SecurityAttributes);
+
+		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
+		public static extern bool DeleteFileFromApp(string lpFileName);
+
+
+		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
+		public static extern bool RemoveDirectoryFromApp(string lpPathName);
+
 		//function
 		public static List<MonitoredFolderItem> GetItems(string path)
 		{
 			var result = new List<MonitoredFolderItem>();
-
-			var watch = Stopwatch.StartNew();
 
 			WIN32_FIND_DATA findDataResult;
 			FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
@@ -173,7 +203,7 @@ namespace UniversalFtpServer
 				additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
 			}
 
-			IntPtr hFile = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out findDataResult, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
+			IntPtr hFile = FindFirstFileExFromApp((@"\\?\" + path + "\\*.*"), findInfoLevel, out findDataResult, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
 			var count = 0;
 			if (hFile.ToInt64() != -1)
 			{
@@ -216,6 +246,114 @@ namespace UniversalFtpServer
 					}
 					result.Add(fileitem);
 
+					++count;
+				} while (FindNextFile(hFile, out findDataResult));
+
+				FindClose(hFile);
+			}
+
+			return result;
+
+
+			/// Local Functions
+
+
+			bool IsSystemItem(string itemName)
+			{
+
+				if
+				(
+					findDataResult.itemName == "." ||
+					findDataResult.itemName == ".."
+				)
+					return true;
+				return false;
+			}
+		}
+
+		//return just folder names, seperate methods as more of it is stripped out
+		public static List<MonitoredFolderItem> GetNames(string path)
+		{
+			var result = new List<MonitoredFolderItem>();
+
+			WIN32_FIND_DATA findDataResult;
+			FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+
+			int additionalFlags = 0;
+			if (Environment.OSVersion.Version.Major >= 6)
+			{
+				findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+				additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+			}
+
+			IntPtr hFile = FindFirstFileExFromApp((@"\\?\" + path + "\\*.*"), findInfoLevel, out findDataResult, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
+			var count = 0;
+			if (hFile.ToInt64() != -1)
+			{
+				do
+				{
+					if (IsSystemItem(findDataResult.itemName))
+						continue;
+
+					// NOTE: This section was originally commented out when the PInvoke method was abandoned
+					MonitoredFolderItem fileitem = new MonitoredFolderItem(findDataResult.itemName);
+					result.Add(fileitem);
+					++count;
+				} while (FindNextFile(hFile, out findDataResult));
+
+				FindClose(hFile);
+			}
+
+			return result;
+
+
+			/// Local Functions
+
+
+			bool IsSystemItem(string itemName)
+			{
+				if
+				(
+					findDataResult.itemName == "." ||
+					findDataResult.itemName == ".."
+				)
+					return true;
+				return false;
+			}
+		}
+
+		//return just folder names, seperate methods as more of it is stripped out
+		public static List<MonitoredFolderItem> GetMinInfo(string path)
+		{
+			var result = new List<MonitoredFolderItem>();
+
+			WIN32_FIND_DATA findDataResult;
+			FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+
+			int additionalFlags = 0;
+			if (Environment.OSVersion.Version.Major >= 6)
+			{
+				findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+				additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+			}
+
+			IntPtr hFile = FindFirstFileExFromApp((@"\\?\" + path + "\\*.*"), findInfoLevel, out findDataResult, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
+			var count = 0;
+			if (hFile.ToInt64() != -1)
+			{
+				do
+				{
+					if (IsSystemItem(findDataResult.itemName))
+						continue;
+
+					// NOTE: This section was originally commented out when the PInvoke method was abandoned
+					MonitoredFolderItem fileitem = new MonitoredFolderItem(findDataResult.itemName);
+					result.Add(fileitem);
+					//set attributes
+					fileitem.attributes = (FileAttributes)findDataResult.itemAttributes;
+
+					//set parent folder
+					fileitem.ParentFolderPath = path;
 					++count;
 				} while (FindNextFile(hFile, out findDataResult));
 
