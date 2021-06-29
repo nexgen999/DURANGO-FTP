@@ -364,18 +364,35 @@
     <MainPackageIdentityName>38290N-Soft.FTPDurango</MainPackageIdentityName>
     <ReservedNames>
       <ReservedName>FTP Durango</ReservedName>
+      <ReservedName>FTP Egress</ReservedName>
     </ReservedNames>
   </ProductReservedInfo>
   <AccountPackageIdentityNames>
+    <MainPackageIdentityName>38290N-Soft.adsfghjk</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.Chrome</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.ContentTest</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.Cyberdyne</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.DolphinTest</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.FileZillaTest</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.FluentMSStore</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.FluentTerminal</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.FTP</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.KodiNz</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.LinuxPort</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.MinerNz</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.PacmanEmulator</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.Pac-manEmulator</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.PSPEmulator</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.RA-Unofficial</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.Retroarch-NoCores</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.RetroArch-Older</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.RetroArch-Scratch</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.RetroArch-Unstable</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.RetroArchExperimental</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.RetroRev</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.RXFileExplorer</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.UWPFileExplorer</MainPackageIdentityName>
+    <MainPackageIdentityName>38290N-Soft.XboxGameStreaming</MainPackageIdentityName>
     <MainPackageIdentityName>38290N-Soft.XboxPackageInstaller</MainPackageIdentityName>
   </AccountPackageIdentityNames>
   <PackageInfoList LandingUrl="https://developer.microsoft.com/dashboard/Application?appId=9P363P05BZLV">
@@ -383,32 +400,32 @@
       <PackageInfo>
         <OsMinVersion>0.0.0.0</OsMinVersion>
         <PackageArchitecture>X64</PackageArchitecture>
-        <PackageMaxArchitectureVersion>1.4.5.0</PackageMaxArchitectureVersion>
+        <PackageMaxArchitectureVersion>1.5.5.0</PackageMaxArchitectureVersion>
       </PackageInfo>
       <PackageInfo>
         <OsMinVersion>0.0.0.0</OsMinVersion>
         <PackageArchitecture>Neutral</PackageArchitecture>
-        <PackageMaxArchitectureVersion>1.4.5.0</PackageMaxArchitectureVersion>
+        <PackageMaxArchitectureVersion>1.5.5.0</PackageMaxArchitectureVersion>
       </PackageInfo>
       <PackageInfo>
         <OsMinVersion>0.0.0.0</OsMinVersion>
         <PackageArchitecture>Neutral</PackageArchitecture>
-        <PackageMaxArchitectureVersion>1.4.5.0</PackageMaxArchitectureVersion>
+        <PackageMaxArchitectureVersion>1.5.5.0</PackageMaxArchitectureVersion>
       </PackageInfo>
       <PackageInfo>
         <OsMinVersion>0.0.0.0</OsMinVersion>
         <PackageArchitecture>Neutral</PackageArchitecture>
-        <PackageMaxArchitectureVersion>1.4.5.0</PackageMaxArchitectureVersion>
+        <PackageMaxArchitectureVersion>1.5.5.0</PackageMaxArchitectureVersion>
       </PackageInfo>
       <PackageInfo>
         <OsMinVersion>0.0.0.0</OsMinVersion>
         <PackageArchitecture>Neutral</PackageArchitecture>
-        <PackageMaxArchitectureVersion>1.4.5.0</PackageMaxArchitectureVersion>
+        <PackageMaxArchitectureVersion>1.5.5.0</PackageMaxArchitectureVersion>
       </PackageInfo>
       <PackageInfo>
         <OsMinVersion>0.0.0.0</OsMinVersion>
         <PackageArchitecture>Neutral</PackageArchitecture>
-        <PackageMaxArchitectureVersion>1.4.5.0</PackageMaxArchitectureVersion>
+        <PackageMaxArchitectureVersion>1.5.5.0</PackageMaxArchitectureVersion>
       </PackageInfo>
     </BundleInfo>
   </PackageInfoList>

@@ -145,7 +145,7 @@
     <value>Important notes:</value>
   </data>
   <data name="MainPage_ImportantNotes_Para3.Text" xml:space="preserve">
-    <value>You can only access the FTP server from another device.</value>
+    <value>Turn on the FTP server and then access it through a PC or mobile device.</value>
   </data>
   <data name="MainPage_Ipv4Error" xml:space="preserve">
     <value>Server at IPv4 error: 
@@ -207,7 +207,7 @@
     <value>Stop</value>
   </data>
   <data name="MainPage_TitleBlock.Text" xml:space="preserve">
-    <value>Durango FTP</value>
+    <value>Egress FTP</value>
   </data>
   <data name="MainPage_UserConnected" xml:space="preserve">
     <value>{0} connected</value>
