@@ -308,11 +308,6 @@ namespace UniversalFtpServer
             try { await server6Run; } catch { }
         }
 
-        private async void LaunchFolderButton_Click(object sender, RoutedEventArgs e)
-        {
-            await Launcher.LaunchFolderAsync(rootFolder);
-        }
-
         private void allowAnonymousBox_Checked(object sender, RoutedEventArgs e)
         {
             VisualStateManager.GoToState(this, nameof(anonymousState), true);
@@ -323,21 +318,6 @@ namespace UniversalFtpServer
             VisualStateManager.GoToState(this, nameof(notAnonymousState), true);
         }
 
-        private async void PickFolderButton_Click(object sender, RoutedEventArgs e)
-        {
-            FolderPicker picker = new FolderPicker();
-            picker.FileTypeFilter.Add("*");
-            var folder = await picker.PickSingleFolderAsync();
-            if (folder == null)
-                return;
-            string token = StorageApplicationPermissions.MostRecentlyUsedList.Add(folder);
-            lock (rootFolderSyncRoot)
-            {
-                rootFolder = folder;
-                rootPath = folder.Path;
-                ApplicationData.Current.LocalSettings.Values[RootFolderSetting] = token;
-            }
-        }
 
         private async Task LoadRootFolderAsync(string token)
         {
@@ -356,10 +336,6 @@ namespace UniversalFtpServer
             }
         }
 
-        private void RateButton_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
         private void PrintLog(string log)
         {
             logsBlock.Text = log + "\n" + logsBlock.Text;
@@ -367,11 +343,6 @@ namespace UniversalFtpServer
             {
                 logsBlock.Text = logsBlock.Text.Substring(0, 1000);
             }
-        }
-
-        private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
