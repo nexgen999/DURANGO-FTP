@@ -364,7 +364,6 @@
     <MainPackageIdentityName>38290N-Soft.FTPDurango</MainPackageIdentityName>
     <ReservedNames>
       <ReservedName>FTP Durango</ReservedName>
-      <ReservedName>FTP Egress</ReservedName>
     </ReservedNames>
   </ProductReservedInfo>
   <AccountPackageIdentityNames>
